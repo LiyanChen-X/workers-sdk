@@ -45,6 +45,22 @@ describe("Wrangler v5 cf proxy", () => {
 
 		expect(result.status).toBe(23);
 	});
+
+	test("runs the legacy Wrangler CLI during prerelease builds", ({
+		expect,
+	}) => {
+		const fakeBinDir = createFakeNpx(23);
+		const result = spawnSync(process.execPath, [wranglerBin, "--version"], {
+			encoding: "utf8",
+			env: {
+				...withFakeNpx(fakeBinDir),
+				WRANGLER_PRERELEASE_LABEL: "test-prerelease",
+			},
+		});
+
+		expect(result.status).toBe(0);
+		expect(result.stdout.trim()).toBe("5.0.0");
+	});
 });
 
 /**
@@ -75,5 +91,6 @@ function withFakeNpx(fakeBinDir: string) {
 	return {
 		...process.env,
 		PATH: `${fakeBinDir}${path.delimiter}${process.env.PATH ?? ""}`,
+		WRANGLER_PRERELEASE_LABEL: "",
 	};
 }
