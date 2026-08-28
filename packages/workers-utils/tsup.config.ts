@@ -13,6 +13,7 @@ export default defineConfig(() => [
 			// be imported by packages bundling to ESM (e.g. via Vite) without
 			// pulling in the barrel's CommonJS dependencies.
 			"src/fs-helpers.ts",
+			"src/d1-migrations.ts",
 			"src/global-wrangler-config-path.ts",
 		],
 		platform: "node",
